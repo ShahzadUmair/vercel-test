@@ -18,10 +18,14 @@ app.get("/", async (req, res) => {
   ```;
 
   try {
-    const { stdout, stderr } = await exec(
+    const output = await exec(
       `echo ${c_code} > main.c && gcc main.c && ./a.out`
     );
-    res.send(stdout);
+    res.send(
+      JSON.stringify({
+        output,
+      })
+    );
   } catch (err) {
     res.send(err);
   }
