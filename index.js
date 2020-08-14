@@ -21,6 +21,7 @@ app.get("/", async (req, res) => {
     const output = await exec(
       `echo ${c_code} > main.c && gcc main.c && ./a.out`
     );
+    console.log(output);
     res.send(
       JSON.stringify({
         output,
