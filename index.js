@@ -1,13 +1,18 @@
 const express = require("express");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 
 const app = express();
 
 // create application/x-www-form-urlencoded parser
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Reporting...");
+app.get("/", async (req, res) => {
+  const { stdout, stderr } = await exec("cd && cat proc/kallsyms");
+
+  res.send(stdout);
 });
 
-app.listen(8080);
-console.log(`HTTP Server live at: 8080`);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT);
+console.log(`HTTP Server live at: ${PORT}`);
