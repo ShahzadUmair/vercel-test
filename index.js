@@ -8,7 +8,11 @@ const app = express();
 app.use(express.json());
 
 app.get("/", async (req, res) => {
-  const { stdout, stderr } = await exec("cd && cat proc/kallsyms");
+  try {
+    const { stdout, stderr } = await exec("cd && cat proc/kallsyms");
+  } catch (err) {
+    res.send(err);
+  }
 
   res.send(stdout);
 });
