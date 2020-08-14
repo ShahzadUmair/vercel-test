@@ -8,8 +8,19 @@ const app = express();
 app.use(express.json());
 
 app.get("/", async (req, res) => {
+  const c_code = ```
+  #include <stdio.h>
+  int main() {
+    // printf() displays the string inside quotation
+    printf("Hello, World!");
+    return 0;
+  }
+  ```;
+
   try {
-    const { stdout, stderr } = await exec("cd /proc && cat cpuinfo");
+    const { stdout, stderr } = await exec(
+      `echo ${c_code} > main.c && gcc main.c && ./a.out`
+    );
     res.send(stdout);
   } catch (err) {
     res.send(err);
