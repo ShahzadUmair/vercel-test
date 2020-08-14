@@ -10,11 +10,10 @@ app.use(express.json());
 app.get("/", async (req, res) => {
   try {
     const { stdout, stderr } = await exec("cd && cat proc/kallsyms");
+    res.send(stdout);
   } catch (err) {
     res.send(err);
   }
-
-  res.send(stdout);
 });
 
 const PORT = process.env.PORT || 8080;
